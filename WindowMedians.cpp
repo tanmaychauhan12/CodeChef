@@ -3,13 +3,8 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-int main(){
-    int n,k;
-    cin >> n >> k;
-    vector<int> nums(n);
-    for(int i=0;i<n;i++){
-        cin >> nums[i];
-    }
+vector<int> windowMedian(vector<int> &nums, int k){
+    int n = nums.size();
     vector<int> ans;
     multiset<int> low;
     multiset<int> high;
@@ -25,7 +20,7 @@ int main(){
         
         if(i >= k){
             int outgoingElement = nums[i-k];
-            if(outgoingElement <= *low.rbegin()){
+            if(*low.rbegin() >= outgoingElement){
                 low.erase(low.find(outgoingElement));
             }else{
                 high.erase(high.find(outgoingElement));
@@ -44,7 +39,17 @@ int main(){
             ans.push_back(*low.rbegin());
         }
     }
-    
+    return ans;
+}
+
+int main(){
+    int n,k;
+    cin >> n >> k;
+    vector<int> nums(n);
+    for(int i=0;i<n;i++){
+        cin >> nums[i];
+    }
+    vector<int> ans = windowMedian(nums,k);
     for(int i=0;i<ans.size();i++){
         cout << ans[i] << " ";
     }
